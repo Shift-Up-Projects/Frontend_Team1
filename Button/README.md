@@ -25,16 +25,17 @@ function App() {
     </div>
   );
 }
-📝 Props
+```
+## 📝 Props
 Name	Type	Description
 text	string	The text displayed inside the button
 onClick	function	Function called when the button is clicked
 style	object	Pass CSS variables to customize button colors
 
-🎨 Color Customization Example
+## 🎨 Color Customization Example
 You can change the main button color using --color-primer:
 
-jsx
+``` jsx
 Copy code
 <Buttons text="Sign Up" style={{ "--color-primer": "#10b981" }} />
 <Buttons text="Cancel" style={{ "--color-primer": "#ef4444" }} />
