@@ -1,22 +1,16 @@
 import "./App.css";
-
+import Header from "./components/Layout/Header";
+import Footer from "./components/Layout/Footer";
+import { Outlet } from "react-router-dom";
 function App() {
   return (
-    <>
-      {/* test */}
-      <div className="bg-slate-900 w-full flex justify-center items-center">
-        <h1 className="text-4xl font-bold py-5 text-gray-100">
-          Event Maneger Platform
-        </h1>
-      </div>
-      <div className="grid grid-cols-2 gap-3  p-4">
-        <div className="bg-amber-300 row-span-3 p-4">box1</div>
-        <div className="bg-blue-300 p-4">box2</div>
-        <div className="bg-red-300 p-4">box3</div>
-        <div className="bg-green-300 p-4">box4</div>
-        <div className="bg-fuchsia-400 col-span-2 h-10 p-4">box5</div>
-      </div>
-    </>
+     <div className="flex flex-col min-h-screen bg-white dark:bg-gray-950">
+      <Header />
+      <main className="flex-1 p-6">
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
   );
 }
 
