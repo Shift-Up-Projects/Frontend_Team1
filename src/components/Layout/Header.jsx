@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Sun, Moon } from "lucide-react";
 
@@ -9,7 +9,6 @@ const navigationLinks = [
 ];
 
 export default function Header() {
-  const location = useLocation();
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
@@ -44,35 +43,9 @@ export default function Header() {
     }
   }, [darkMode]);
 
-  const currentPath = location.pathname;
-  const isActivePath = (path) => {
-    if (path === "/") {
-      return currentPath === "/";
-    }
-
-    return currentPath.startsWith(path);
-  };
-
   return (
     <header className="relative overflow-hidden border-b border-gray-300 dark:border-gray-800">
-      <button
-        type="button"
-        onClick={() => setDarkMode((prev) => !prev)}
-        aria-label="Toggle color theme"
-        className="absolute right-4 top-4 z-10 flex items-center gap-2 rounded-full border border-white/50 bg-white/90 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.25em] text-slate-800 shadow-sm transition hover:border-indigo-500/60 hover:text-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:border-gray-700/80 dark:bg-gray-900/70 dark:text-gray-200 dark:hover:border-indigo-400/60 dark:hover:text-indigo-300 sm:hidden"
-      >
-        <span>{darkMode ? "Night" : "Day"}</span>
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-500 text-white shadow-md transition-colors dark:bg-indigo-400">
-          {darkMode ? <Sun size={18} /> : <Moon size={18} />}
-        </span>
-      </button>
-
-      <div className="absolute inset-0 -z-20">
-        <div className="h-full w-full bg-gradient-to-r from-sky-300 via-indigo-400 to-violet-500 dark:from-gray-900 dark:via-gray-950 dark:to-black" />
-        <div className="h-full w-full bg-white/60 backdrop-blur-xl dark:bg-black/50" />
-      </div>
-
-      <div className="relative mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-4 lg:px-8">
         <Link to="/" className="group flex items-center gap-3">
           <span className=" font-sans flex h-10 w-10 items-center justify-center rounded-2xl bg-white/60 font-semibold text-indigo-600 shadow-md ring-2 ring-white/50 transition-transform duration-300 group-hover:scale-105 dark:bg-gray-900/70 dark:text-indigo-300">
             AM
@@ -88,28 +61,34 @@ export default function Header() {
         </Link>
 
         <nav className="hidden items-center gap-8 text-sm font-semibold md:flex">
-          {navigationLinks.map((link) => {
-            const active = isActivePath(link.to);
-
-            return (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`group relative transition ${
-                  active
+          {navigationLinks.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              end={link.to === "/"}
+              className={({ isActive }) =>
+                `group relative transition ${
+                  isActive
                     ? "text-indigo-700 dark:text-indigo-300"
                     : "text-slate-800 hover:text-indigo-600 dark:text-slate-200 dark:hover:text-indigo-300"
-                }`}
-              >
-                <span>{link.label}</span>
-                <span
-                  className={`absolute -bottom-1 left-0 h-0.5 w-full origin-left scale-x-0 transform rounded-full bg-indigo-500 transition-transform duration-300 group-hover:scale-x-100 dark:bg-indigo-400 ${
-                    active ? "scale-x-100" : ""
-                  }`}
-                />
-              </Link>
-            );
-          })}
+                }`
+              }
+            >
+              {({ isActive }) => (
+                <>
+                  <span>{link.label}</span>
+                  {/* الخط يلي تحت الروابط بالهيدر */}
+                  <span
+                    className={`absolute -bottom-1 left-0 h-0.5 w-full origin-left transform rounded-full bg-indigo-500 transition-transform duration-300 dark:bg-indigo-400 ${
+                      isActive
+                        ? "scale-x-100"
+                        : "scale-x-0 group-hover:scale-x-100"
+                    }`}
+                  />
+                </>
+              )}
+            </NavLink>
+          ))}
         </nav>
 
         <div className="flex items-center gap-3">
